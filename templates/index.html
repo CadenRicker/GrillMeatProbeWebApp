@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>My App</h1>
+    <p>The current number is: <span id="number"></span></p>
+    
+    <button onclick="refreshNumber()">Refresh Number</button>
+    <script>
+      function renderNumber(number) {
+        $('#number').text(number);
+      }
+
+      function refreshNumber() {
+        $.get('/number', function(data) {
+          renderNumber(data.number);
+        });
+      }
+
+      setInterval(refreshNumber, 5000);
+      window.addEventListener('load', function() {
+        $.get('/number', function(data) {
+          renderNumber(data.number);
+        });
+      });
+    </script>
+  </body>
+</html>
