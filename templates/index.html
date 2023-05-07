@@ -6,26 +6,19 @@
   </head>
   <body>
     <h1>My App</h1>
-    <p>The current number is: <span id="number"></span></p>
+    <p>The current numbers are: <span id="number1"></span> and <span id="number2"></span></p>
     
-    <button onclick="refreshNumber()">Refresh Number</button>
     <script>
-      function renderNumber(number) {
-        $('#number').text(number);
-      }
-
-      function refreshNumber() {
-        $.get('/number', function(data) {
-          renderNumber(data.number);
-        });
-      }
-
-      setInterval(refreshNumber, 5000);
-      window.addEventListener('load', function() {
-        $.get('/number', function(data) {
-          renderNumber(data.number);
-        });
-      });
+      var source = new EventSource("/send_numbers");
+      source.onmessage = function(event) {
+        if (event.data) {
+          
+          var numbers = event.data.split(",");
+          console.log(numbers)
+          $("#number1").text(numbers[0]);
+          $("#number2").text(numbers[1]);
+        }
+      };
     </script>
   </body>
 </html>

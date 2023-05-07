@@ -54,7 +54,7 @@ class display:
         self.draw.text((self.x, self.top + 0), "Probe 1", font=self.fontTitle, fill=255)
         self.draw.text((self.x, self.top + 24), "{:>3}°F".format(displayValue1,) , font=self.fontNumber, fill=255)
         self.draw2.text((self.x, self.top + 0), "Probe 2", font=self.fontTitle, fill=255)
-        self.draw2.text((self.x, self.top + 24), "{:>3}°F".format(displayValue1,+1) , font=self.fontNumber, fill=255)
+        self.draw2.text((self.x, self.top + 24), "{:>3}°F".format(displayValue2,+1) , font=self.fontNumber, fill=255)
 
         # Display image.
         self.disp.image(self.image)
