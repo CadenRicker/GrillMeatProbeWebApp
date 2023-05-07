@@ -7,9 +7,9 @@ from PIL import Image, ImageDraw, ImageFont
 import adafruit_ssd1306
 
 class display:
-    def __init__(self) -> None:
+    def __init__(self, i2c) -> None:
         # Create the I2C interface.
-        self.i2c = busio.I2C(SCL, SDA)
+        self.i2c = i2c
         self.disp  = adafruit_ssd1306.SSD1306_I2C(128, 64, self.i2c, addr=0x3C)
         self.disp2 = adafruit_ssd1306.SSD1306_I2C(128, 64, self.i2c, addr=0X3D)
         # Clear display.

@@ -1,15 +1,21 @@
 from flask import Flask , render_template, make_response, jsonify, Response
 from flask_restful import Api, Resource, reqparse
 import random ,time, threading , queue
+import busio
+from board import SCL, SDA
 from display import display
 
 app = Flask(__name__)
-
 api = Api(app)
-meatProbeDisplays = display()
+
 parser = reqparse.RequestParser()
 parser.add_argument('number', type=int)
+
+# set up i2c devices
+i2c = busio.I2C(SCL, SDA)
+meatProbeDisplays = display(i2c=i2c)
 probeTempsQueue = queue.Queue()
+
 class MeatProbe(Resource):
     def get(self):
         return make_response(render_template('index.html'))
@@ -44,5 +50,4 @@ api.add_resource(MeatProbe, '/')
 api.add_resource(dataStream, '/send_numbers')
 
 if __name__ == '__main__':
-    print("here")
     app.run(debug=True, host='192.168.1.16', port=5000)

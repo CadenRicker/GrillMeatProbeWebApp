@@ -1,0 +1,23 @@
+body {
+    background-color: #F2E2CE;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: Georgia, serif;
+    color: #824D3E;
+  }
+  
+  p {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #363636;
+  }
+  
+  #number1, #number2 {
+    font-size: 48px;
+    color: #824D3E;
+  }
+  
+  /* Add styles for grilling-related images or icons here */
+  
