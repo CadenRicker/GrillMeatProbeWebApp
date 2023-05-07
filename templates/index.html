@@ -9,16 +9,15 @@
     <p>The current numbers are: <span id="number1"></span> and <span id="number2"></span></p>
     
     <script>
-      var source = new EventSource("/send_numbers");
-      source.onmessage = function(event) {
-        if (event.data) {
-          
+        var eventSource = new EventSource('/send_numbers');
+        eventSource.onmessage = function(event) {
+          if (event.data) {
           var numbers = event.data.split(",");
-          console.log(numbers)
+          console.log(event.data)
           $("#number1").text(numbers[0]);
           $("#number2").text(numbers[1]);
         }
-      };
+        };
     </script>
   </body>
 </html>
