@@ -15,7 +15,10 @@ parser.add_argument('number', type=int)
 i2c = busio.I2C(SCL, SDA)
 meatProbeDisplays = display(i2c=i2c)
 probeTempsQueue = queue.Queue()
-
+number1 = 0
+number2 = 0
+lock = threading.Lock()
+updateRate = 5
 class MeatProbe(Resource):
     def get(self):
         return make_response(render_template('index.html'))
@@ -27,21 +30,22 @@ class dataStream(Resource):
     def get(self):
         def get_numbers():
             while True:
-                if not probeTempsQueue.empty() :
-                    number1, number2 = probeTempsQueue.get_nowait()
-                    yield 'data: %s,%s\n\n' % (number1, number2)
-                else:
-                   time.sleep(4)                
+                   yield 'data: %s,%s\n\n' % (number1, number2)
+                   time.sleep(5)                
                 
                 
         return Response(get_numbers(), mimetype='text/event-stream')
 def displayProbeValues():
-    while True:
-        number1 = random.randint(1, 100)
-        number2 = random.randint(1, 100)
-        meatProbeDisplays.drawDisplay(number1,number2)
-        probeTempsQueue.put((number1, number2))
-        time.sleep(5)
+    global number1
+    global number2
+    global updateRate
+    with lock:
+        while True:
+            number1 = random.randint(1, 100)
+            number2 = random.randint(1, 100)
+            meatProbeDisplays.drawDisplay(number1,number2)
+            probeTempsQueue.put((number1, number2))
+            time.sleep(updateRate)
 # Start the background thread when the application starts
 thread = threading.Thread(target=displayProbeValues)
 thread.daemon = True

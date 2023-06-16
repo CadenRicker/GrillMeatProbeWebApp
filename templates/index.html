@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My App</title>
-    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <title>Meat Probe</title>
+    <link rel="stylesheet" type="text/css" href="../static/grilling-style.css?modified=2116">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
-    <h1>My App</h1>
-    <p>The current numbers are: <span id="number1"></span> and <span id="number2"></span></p>
-    
+    <div class="label">
+      <h1>Meat Probe</h1>
+    </div>
+    <div class="meat-probe">      
+      <div class="box">
+        <h2> Temperature: 1</h2>
+        <p><span id="number1"></span>°F</p>
+      </div>
+      <div class="box">
+        <h2> Temperature: 2</h2>
+        <p><span id="number2"></span>°F</p>
+      </div>
+    </div>
+
     <script>
         var eventSource = new EventSource('/send_numbers');
         eventSource.onmessage = function(event) {
           if (event.data) {
-          var numbers = event.data.split(",");
-          console.log(event.data)
-          $("#number1").text(numbers[0]);
-          $("#number2").text(numbers[1]);
-        }
+            var numbers = event.data.split(",");
+            $("#number1").text(numbers[0]);
+            $("#number2").text(numbers[1]);
+          }
         };
     </script>
   </body>
